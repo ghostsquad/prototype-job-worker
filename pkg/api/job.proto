@@ -1,0 +1,43 @@
+option go_package = "github.com/ghostsquad/prototype-job-worker";
+
+service Jobber {
+  rpc Start(JobStartRequest) returns (JobGetResponse) {}
+  rpc Stop(JobStopRequest) returns (JobGetResponse) {}
+  rpc Get(JobGetRequest) returns (JobGetResponse) {}
+  rpc List(JobListRequest) returns (JobListResponse) {}
+  rpc Logs(JobLogsRequest) returns (stream JobLogsResponse) {}
+}
+
+message JobStartRequest {
+  required string command = 1;
+}
+
+message JobGetRequest {
+  required int64 id = 1;
+}
+
+message JobGetResponse {
+  required int64 id = 1;
+  required string command = 2;
+  required string start = 3;
+  optional string end = 4;
+  optional int64  exit_code = 5;
+}
+
+message JobListRequest {}
+
+message JobListResponse {
+  repeated int64 ids = 1;
+}
+
+message JobStopRequest {
+  required int64 id = 1;
+}
+
+message JobLogsRequest {
+  required int64 id = 1;
+}
+
+message JobLogsResponse {
+  required int64 line = 1;
+}
